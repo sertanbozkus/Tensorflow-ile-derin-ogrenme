@@ -1,0 +1,159 @@
+<html>
+
+<head>
+	<title>Testing!</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	 crossorigin="anonymous">
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+				<div class="col-8 p-5">
+						<div class="card">
+								<div class="card-header font-weight-bold">DIABETES TEST</div>
+								<div class="card-body">
+										<form id="myForm" class="form-horizontal" method="post">
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">Pregnancies</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="pregnancies">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">Glucose</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="glucose">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">BloodPressure</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="bloodPressure">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">SkinThickness</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="skinThickness">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">Insulin</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="insulin">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">BMI</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="bmi">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">DiabetesPedigreeFunction</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="diabetesPedigreeFunction">
+														</div>
+												</div>
+												<div class="form-group row">
+														<label for="staticEmail" class="col-sm-3 col-form-label">Age</label>
+														<div class="col-sm-9">
+															<input type="text" class="form-control" id="age">
+														</div>
+												</div>
+												<div class="form-group row pt-3">
+														<div class="col-sm-9 offset-sm-3">
+																<button type="button" id="btnSend" class="btn btn-primary">Send Request</button>
+																<button type="button" id="btnSampleData" class="btn">Insert Sample Data</button>
+														</div>
+												</div>
+										</form>
+								</div>
+							</div>
+				</div>
+				<div class="col-4 p-5">
+					<label id="lblResult"></label>
+				</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+	 crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+	 crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<script>
+
+		var lblResult = $("#lblResult");
+		var btnSend = $("#btnSend");
+		var btnSampleData = $("#btnSampleData");
+
+		btnSampleData.click(function(){
+					$("#pregnancies").val("8");
+					$("#glucose").val("0.919");
+					$("#bloodPressure").val("0.524");
+					$("#skinThickness").val("0.00");
+					$("#insulin").val("0.00");
+					$("#bmi").val("0.347");
+					$("#diabetesPedigreeFunction").val("0.253");
+					$("#age").val("32");
+		});
+
+		btnSend.click(function () {
+
+
+			lblResult.text("Model is training...");
+
+			axios.get('http://127.0.0.1:5000/todo/api/v1.0/tasks', {
+					params: {
+						pregnancies: $("#pregnancies").val(),
+						glucose: $("#glucose").val(),
+						bloodPressure: $("#bloodPressure").val(),
+						skinThickness: $("#skinThickness").val(),
+						insulin: $("#insulin").val(),
+						bmi: $("#bmi").val(),
+						diabetesPedigreeFunction: $("#diabetesPedigreeFunction").val(),
+						age: $("#age").val()
+					}
+			})
+				.then(function (response) {
+
+					if(response.data == "Diabetes")
+					{
+						var lblHtml = '<div class="alert alert-danger" role="alert">Person has diabetes!.</div>'
+						lblResult.html(lblHtml);
+					}
+					else if(response.data == "Healthy"){
+						var lblHtml = '<div class="alert alert-success" role="alert">Person is healthy</div>'
+						lblResult.html(lblHtml);
+					}
+					else{
+						lblResult.text(JSON.stringify(response.data));
+					}
+					
+					console.log(response);
+				})
+				.catch(function (error) {
+					console.log(error);
+				})
+				.then(function () {
+					// always executed
+				});
+
+		});
+
+	</script>
+
+</body>
+
+</html>
