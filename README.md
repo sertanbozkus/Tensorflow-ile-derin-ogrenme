@@ -5,13 +5,13 @@
 ## KURULUMLAR
 ### ANACONDA - Python kurulum
 
-https://www.anaconda.com/download/
+- [Anaconda web sitesi](https://www.anaconda.com/download/)
 - 64-bit Anaconda indirip kurun. Ayrıca Python kurulumu yapmanıza gerek yok. Python Anaconda'yla birlikte gelecek.*
 - Kurulum esnasında "add python to your PATH" seçeneğini işaretleyin.*
 
 ### PYCHARM
 
-- https://www.jetbrains.com/pycharm/download/
+- [Pycharm web sitesi](https://www.jetbrains.com/pycharm/download/)
 - Pycharm kurulumu yaptıysanız interpreter belirtin.
 - File/Default Settings/Project Interpreter
 - Sağdaki küçük butona tıklayıp "Add Local" seçin.
