@@ -10,7 +10,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 
-
+#Serving as restAPI
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -108,6 +108,7 @@ def main(predict_x):
         input_fn = lambda: eval_input_fn(test_x,test_y,100)
     )
 
+    #This will show our program's prediction accuracy on our Test-set
     print('\nTest set accuracy: {accuracy:0.3f}\n'.format(**eval_result))
 
 
@@ -122,7 +123,7 @@ def main(predict_x):
         probability = pred_dict['probabilities'][class_id]
 
     
-    
+    # Show our prediction and accurancy of the prediction
     template = ('\nPrediction is "{}" ({:.1f}%)')
     print(template.format(OUTCOME[class_id],
                               100 * probability))
@@ -130,5 +131,3 @@ def main(predict_x):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    #tf.logging.set_verbosity(tf.logging.INFO)
-    #tf.app.run(main)
